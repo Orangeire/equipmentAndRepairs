@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "equipment")
 @Data
@@ -23,5 +26,13 @@ public class Equipment {
     private String author;
     @Column(name = "city")
     private String city;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "equipment")
+    private List<Repair> repairs = new ArrayList<>();
+    private Long previewRepairId;
+
+    public void addRepair(Repair repair){
+        repair.setEquipment(this);
+        repairs.add(repair);
+    }
 
 }
